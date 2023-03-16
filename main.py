@@ -1,4 +1,5 @@
 from fastapi import FastAPI, Depends, UploadFile, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from schemas import UserSignUpModel, UserSignInModel, UserResponseModel, PokemonResponseModel
 import models
 from database import engine, SessionLocal, Base
@@ -8,6 +9,22 @@ import fileuploads
 
 
 app = FastAPI()
+
+origins = [
+    "http://localhost:5173",
+    "http://127.0.0:5173"
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_methods=["*"],
+    allow_headers=["*"],
+    allow_credentials=True
+
+)
+
+
 
 Base.metadata.create_all(bind=engine)
 
